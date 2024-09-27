@@ -3,23 +3,20 @@
 import { cn } from '@/lib/utils'
 import { ChatList } from '@/components/chat-list'
 import { ChatPanel } from '@/components/chat-panel'
-import { EmptyScreen } from '@/components/empty-screen'
 import { useLocalStorage } from '@/lib/hooks/use-local-storage'
 import { useEffect, useState } from 'react'
 import { useUIState, useAIState } from 'ai/rsc'
 import { Message, Session } from '@/lib/types'
 import { usePathname, useRouter } from 'next/navigation'
 import { useScrollAnchor } from '@/lib/hooks/use-scroll-anchor'
-import { toast } from 'sonner'
 
 export interface ChatProps extends React.ComponentProps<'div'> {
     initialMessages?: Message[]
     id?: string
     session?: Session
-    missingKeys: string[]
 }
 
-export function Chat({ id, className, session, missingKeys }: ChatProps) {
+export function Chat({ id, className, session }: ChatProps) {
     const router = useRouter()
     const path = usePathname()
     const [input, setInput] = useState('')
@@ -47,12 +44,6 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
         setNewChatId(id)
     })
 
-    useEffect(() => {
-        missingKeys.map(key => {
-            toast.error(`Missing ${key} environment variable!`)
-        })
-    }, [missingKeys])
-
     const {
         messagesRef,
         scrollRef,
@@ -76,9 +67,7 @@ export function Chat({ id, className, session, missingKeys }: ChatProps) {
                         isShared={false}
                         session={session}
                     />
-                ) : (
-                    <EmptyScreen />
-                )}
+                ) : null}
                 <div className="w-full h-px" ref={visibilityRef} />
             </div>
             <ChatPanel
