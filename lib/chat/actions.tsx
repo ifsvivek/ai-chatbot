@@ -132,7 +132,7 @@ async function submitUserMessage(content: string) {
 	let textNode: undefined | React.ReactNode
 
 	const result = await streamUI({
-		model: groq('llama-3.2-90b-text-preview'),
+		model: groq('llama-3.2-90b-vision-preview'),
 		initial: <SpinnerMessage />,
 		system: `\
         You are a chat bot that can help users with general information about anything
